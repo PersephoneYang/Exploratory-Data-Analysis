@@ -1,0 +1,13 @@
+dir.create("/Users/YanYang/code/Electric power consumption")
+setwd("/Users/YanYang/code/Electric power consumption")
+url <- c("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip")
+download.file(url, destfile = "/Users/YanYang/code/Electric power consumption/electric_power_consumption.zip", method = "curl")
+unzip("/Users/YanYang/code/Electric power consumption/electric_power_consumption.zip")
+data <- read.table("household_power_consumption.txt", header = TRUE, sep = ";", na.strings = "?")
+
+library(dplyr)
+data <- mutate(data, Date = as.character(data$Date))
+use <- subset(data, subset = (data$Date == "1/2/2007" | data$Date == "2/2/2007"))
+hist(use$Global_active_power, xlab = "Global Active Power (kilowatts)", ylab = "Frequency", main = "Global Active Power", col = "red", freq = TRUE)
+dev.copy(png, file = "plot1.png", height = 480, width = 480)
+dev.off()
