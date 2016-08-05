@@ -8,8 +8,8 @@ data <- read.table("household_power_consumption.txt", header = TRUE, sep = ";", 
 library(dplyr)
 data2 <- mutate(data, Date = paste(data$Date, data$Time))
 data2 <- select(data2, -Time)
-data3 <- mutate(data2, Date = as.POSIXct(data2$Date))
-use <- subset(data3, subset=(Date >= "2007-02-01 00:00:00" & Date <= "2007-02-02 23:59:00"))
+data2$Date <-  strptime(data2$Date, format = "%d/%m/%Y %H:%M:%S")
+use <- subset(data2, subset=(Date >= "2007-02-01 00:00:00" & Date <= "2007-02-02 23:59:00"))
 par(mfcol = c(2,2))
 plot(x = use$Date, y = use$Global_active_power, ylab = "Global Active Power (kilowatts)", xlab = "", type = "l")
 
